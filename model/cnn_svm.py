@@ -1,23 +1,6 @@
-# Copyright 2017-2020 Abien Fred Agarap
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""2 Convolutional Layers with Max Pooling CNN"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
-__version__ = "0.1.0"
-__author__ = "Abien Fred Agarap"
 
 import os
 import tensorflow as tf
@@ -27,17 +10,9 @@ import sys
 
 class CNNSVM:
     def __init__(self, alpha, batch_size, num_classes, num_features, penalty_parameter):
-        """Initializes the CNN-SVM model
-
-        :param alpha: The learning rate to be used by the model.
-        :param batch_size: The number of batches to use for training/validation/testing.
-        :param num_classes: The number of classes in the dataset.
-        :param num_features: The number of features in the dataset.
-        :param penalty_parameter: The SVM C penalty parameter.
-        """
         self.alpha = alpha
         self.batch_size = batch_size
-        self.name = "CNN-SVM"
+        self.name = "IExNet"
         self.num_classes = num_classes
         self.num_features = num_features
         self.penalty_parameter = penalty_parameter
@@ -135,15 +110,6 @@ class CNNSVM:
         sys.stdout.write("</log>\n")
 
     def train(self, checkpoint_path, epochs, log_path, train_data, test_data):
-        """Trains the initialized model.
-
-        :param checkpoint_path: The path where to save the trained model.
-        :param epochs: The number of passes through the entire dataset.
-        :param log_path: The path where to save the TensorBoard logs.
-        :param train_data: The training dataset.
-        :param test_data: The testing dataset.
-        :return: None
-        """
 
         if not os.path.exists(path=log_path):
             os.mkdir(log_path)
@@ -231,41 +197,20 @@ class CNNSVM:
 
     @staticmethod
     def weight_variable(shape):
-        """Returns a weight matrix consisting of arbitrary values.
-
-        :param shape: The shape of the weight matrix to create.
-        :return: The weight matrix consisting of arbitrary values.
-        """
         initial = tf.truncated_normal(shape, stddev=0.1)
         return tf.Variable(initial)
 
     @staticmethod
     def bias_variable(shape):
-        """Returns a bias matrix consisting of 0.1 values.
-
-        :param shape: The shape of the bias matrix to create.
-        :return: The bias matrix consisting of 0.1 values.
-        """
         initial = tf.constant(0.1, shape=shape)
         return tf.Variable(initial)
 
     @staticmethod
     def conv2d(features, weight):
-        """Produces a convolutional layer that filters an image subregion
-
-        :param features: The layer input.
-        :param weight: The size of the layer filter.
-        :return: Returns a convolutional layer.
-        """
         return tf.nn.conv2d(features, weight, strides=[1, 1, 1, 1], padding="SAME")
 
     @staticmethod
     def max_pool_2x2(features):
-        """Downnsamples the image based on convolutional layer
-
-        :param features: The input to downsample.
-        :return: Downsampled input.
-        """
         return tf.nn.max_pool(
             features, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME"
         )

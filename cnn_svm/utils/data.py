@@ -1,4 +1,3 @@
-"""Utility functions module"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -8,32 +7,9 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
-__author__ = "Abien Fred Agarap"
-__version__ = "1.0.0"
-
-
 def load_tfds(
     name: str = "mnist"
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Returns a data set from `tfds`.
-
-    Parameters
-    ----------
-    name : str
-        The name of the TensorFlow data set to load.
-
-    Returns
-    -------
-    train_features : np.ndarray
-        The train features.
-    test_features : np.ndarray
-        The test features.
-    train_labels : np.ndarray
-        The train labels.
-    test_labels : np.ndarray
-        The test labels.
-    """
     train_dataset = tfds.load(name=name, split=tfds.Split.TRAIN, batch_size=-1)
     train_dataset = tfds.as_numpy(train_dataset)
 
@@ -61,26 +37,6 @@ def create_dataset(
     batch_size: int,
     as_supervised: bool = True,
 ) -> tf.data.Dataset:
-    """
-    Returns a `tf.data.Dataset` object from a pair of
-    `features` and `labels` or `features` alone.
-
-    Parameters
-    ----------
-    features : np.ndarray
-        The features matrix.
-    labels : np.ndarray
-        The labels matrix.
-    batch_size : int
-        The mini-batch size.
-    as_supervised : bool
-        Boolean whether to load the dataset as supervised or not.
-
-    Returns
-    -------
-    dataset : tf.data.Dataset
-        The dataset pipeline object, ready for model usage.
-    """
     if as_supervised:
         dataset = tf.data.Dataset.from_tensor_slices((features, labels))
     else:
